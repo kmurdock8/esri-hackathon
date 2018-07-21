@@ -22,6 +22,7 @@ public class AlertProcessor extends GeoEventProcessorBase
 	protected AlertProcessor(GeoEventProcessorDefinition definition) throws ComponentException
 	{
 		super(definition);
+		//test
 	}
 
 	@Override

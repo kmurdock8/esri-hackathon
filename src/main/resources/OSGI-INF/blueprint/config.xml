@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
+	<bean id="alertProcessorServiceBean"
+		  class="com.esri.geoevent.processor.AlertProcessorService"
+		  activation="eager">
+		<property name="bundleContext" ref="blueprintBundleContext" />
+	</bean>
+	<service id="alertProcessorService"
+			 ref="alertProcessorServiceBean"
+			 interface="com.esri.ges.processor.GeoEventProcessorService"/>
+</blueprint>

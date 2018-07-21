@@ -8,7 +8,7 @@ import com.esri.ges.framework.i18n.BundleLoggerFactory;
 import com.esri.ges.processor.GeoEventProcessorBase;
 import com.esri.ges.processor.GeoEventProcessorDefinition;
 
-public class AlertProcessor extends GeoEventProcessorBase
+public class AlertProcessor extends AsyncGeoEventProcessor
 {
   /**
    * Initialize the i18n Bundle Logger
@@ -29,6 +29,20 @@ public class AlertProcessor extends GeoEventProcessorBase
 	public GeoEvent process(GeoEvent geoEvent) throws Exception
 	{
 		return geoEvent;
+	}
+
+	protected GeoEvent processAsync(GeoEvent geoEvent) {
+
+		if (geoEvent!= null) {
+			try {
+				// Send out the new GeoEvent
+				send(geoEvent);
+			} catch (Exception e) {
+				LOGGER.info("ERROR IN PROCESS ASYNC METHOD");
+				LOGGER.info(e.getMessage());
+			}
+		}
+		return null;
 	}
 
 }

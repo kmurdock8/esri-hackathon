@@ -7,6 +7,8 @@ import com.esri.ges.framework.i18n.BundleLoggerFactory;
 import com.esri.ges.processor.GeoEventProcessorBase;
 import com.esri.ges.processor.GeoEventProcessorDefinition;
 
+import java.util.List;
+
 public class WheresFidoProcessor extends GeoEventProcessorBase
 {
   /**
@@ -21,15 +23,46 @@ public class WheresFidoProcessor extends GeoEventProcessorBase
     private String sightingDef;
     private String foundDef;
 
+    // DB connection
+	private WheresFidoDB DBConn;
+
 	protected WheresFidoProcessor(GeoEventProcessorDefinition definition) throws ComponentException
 	{
 		super(definition);
-		//test
 	}
 
 	@Override
 	public GeoEvent process(GeoEvent geoEvent) throws Exception
 	{
+		try {
+			// get definition
+			String def = geoEvent.getGeoEventDefinition().getName();
+
+			// get all the users that have notifications on
+			List<User> users = DBConn.getUsersWithNotificationsOn();
+
+			// LOST DOG
+			if (def.equals(lostDef)) {
+
+				return null;
+			}
+
+			// SIGHTING
+			if (def.equals(sightingDef)) {
+
+				return null;
+			}
+
+			// FOUND
+			if (def.equals(foundDef)) {
+
+				return null;
+			}
+
+			LOGGER.info("GeoEvent Definition did  not match the lost, found, or sighting definitions.");
+		} catch (Exception e) {
+			LOGGER.info("ERROR: "  + e.getMessage());
+		}
 	    // get geoevent def name
 
         // Switch on def name
@@ -70,7 +103,7 @@ public class WheresFidoProcessor extends GeoEventProcessorBase
 
 	        // send owner new email alert
 
-		return geoEvent;
+		return null;
 	}
 
 	@Override
@@ -81,5 +114,8 @@ public class WheresFidoProcessor extends GeoEventProcessorBase
 		this.lostDef = (String) this.properties.get("lostDef").getValue();
 		this.sightingDef = (String) this.properties.get("sightingDef").getValue();
 		this.foundDef = (String) this.properties.get("foundDef").getValue();
+
+		// Initialize db connection object
+		DBConn = new WheresFidoDB();
 	}
 }

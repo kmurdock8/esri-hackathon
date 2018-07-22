@@ -2,29 +2,26 @@ package com.esri.geoevent.processor;
 
 import com.esri.ges.core.component.ComponentException;
 import com.esri.ges.core.geoevent.GeoEvent;
-import com.esri.ges.core.property.Property;
 import com.esri.ges.framework.i18n.BundleLogger;
 import com.esri.ges.framework.i18n.BundleLoggerFactory;
 import com.esri.ges.processor.GeoEventProcessorBase;
 import com.esri.ges.processor.GeoEventProcessorDefinition;
 
-public class AlertProcessor extends AsyncGeoEventProcessor
+public class WheresFidoProcessor extends GeoEventProcessorBase
 {
   /**
    * Initialize the i18n Bundle Logger
    * 
    * See {@link BundleLogger} for more info.
    */
-  	private static final BundleLogger LOGGER = BundleLoggerFactory.getLogger(AlertProcessor.class);
+  	private static final BundleLogger LOGGER = BundleLoggerFactory.getLogger(WheresFidoProcessor.class);
 
   	// User input
     private String lostDef;
     private String sightingDef;
     private String foundDef;
-  
 
-
-	protected AlertProcessor(GeoEventProcessorDefinition definition) throws ComponentException
+	protected WheresFidoProcessor(GeoEventProcessorDefinition definition) throws ComponentException
 	{
 		super(definition);
 		//test
@@ -76,18 +73,13 @@ public class AlertProcessor extends AsyncGeoEventProcessor
 		return geoEvent;
 	}
 
-	protected GeoEvent processAsync(GeoEvent geoEvent) {
+	@Override
+	public void afterPropertiesSet() {
+		super.afterPropertiesSet();
 
-		if (geoEvent!= null) {
-			try {
-				// Send out the new GeoEvent
-				send(geoEvent);
-			} catch (Exception e) {
-				LOGGER.info("ERROR IN PROCESS ASYNC METHOD");
-				LOGGER.info(e.getMessage());
-			}
-		}
-		return null;
+		// Get user input
+		this.lostDef = (String) this.properties.get("lostDef").getValue();
+		this.sightingDef = (String) this.properties.get("sightingDef").getValue();
+		this.foundDef = (String) this.properties.get("foundDef").getValue();
 	}
-
 }

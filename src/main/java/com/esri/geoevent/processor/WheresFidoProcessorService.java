@@ -4,16 +4,16 @@ import com.esri.ges.core.component.ComponentException;
 import com.esri.ges.processor.GeoEventProcessor;
 import com.esri.ges.processor.GeoEventProcessorServiceBase;
 
-public class AlertProcessorService extends GeoEventProcessorServiceBase
+public class WheresFidoProcessorService extends GeoEventProcessorServiceBase
 {
-  public AlertProcessorService()
+  public WheresFidoProcessorService()
   {
-    definition = new AlertProcessorDefinition();
+    definition = new WheresFidoProcessorDefinition();
   }
 
   @Override
   public GeoEventProcessor create() throws ComponentException
   {
-    return new AlertProcessor(definition);
+    return new WheresFidoProcessor(definition);
   }
 }
